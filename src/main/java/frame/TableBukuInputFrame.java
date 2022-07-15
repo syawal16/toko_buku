@@ -59,11 +59,11 @@ public class TableBukuInputFrame extends JFrame {
                         );
                         return;
                     }
-                    String insertSQL = "INSERT INTO tbl_buku (kode_buku,judul,penulis,penerbit,harga) VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+                    String insertSQL = "INSERT INTO tbl_buku (kode_buku,judul,penulis,penerbit,harga) VALUES (NULL, ?, ?, ?, ?, ?)";
                     insertSQL = "INSERT INTO `tbl_buku` (`kode_buku`, `judul`, `penulis`, `penerbit`, `harga`) VALUES (NULL, ?)";
                     insertSQL = "INSERT INTO `tbl_buku` VALUES (NULL, ?)";
-                    insertSQL = "INSERT INTO tbl_buku (kode_buku,judul,penulis,penerbit,harga) VALUES (?)";
-                    insertSQL = "INSERT INTO tbl_buku SET judul=?";
+                    insertSQL = "INSERT INTO tbl_buku (judul,penulis,penerbit,harga) VALUES (?)";
+                    insertSQL = "INSERT INTO tbl_buku SET judul=?, penulis=?, penerbit=?, harga=?";
                     ps = c.prepareStatement(insertSQL);
                     ps.setString(1, judul);
                     ps.setString(2, penulis);
