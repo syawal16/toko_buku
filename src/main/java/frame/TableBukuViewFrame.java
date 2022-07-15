@@ -4,9 +4,6 @@ import helpers.Koneksi;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.table.TableModel;
 import java.awt.event.WindowAdapter;
@@ -34,7 +31,7 @@ public class TableBukuViewFrame extends JFrame {
             dispose();
         });
         batalButton.addActionListener(e -> {
-            isiTables();
+            isiTable();
         });
         tambahButton.addActionListener(e -> {
             TableBukuInputFrame inputFrame = new TableBukuInputFrame();
@@ -43,7 +40,7 @@ public class TableBukuViewFrame extends JFrame {
         addWindowListener(new WindowAdapter(){
             @Override
             public void windowActivated(WindowEvent e) {
-                isiTables();
+                isiTable();
                 init();
             }
         });
@@ -61,7 +58,7 @@ public class TableBukuViewFrame extends JFrame {
 
             Connection c = Koneksi.getConnection();
             String keyword = "%" + cariTextField.getText() + "%";
-            String searchSQL = "SELECT * FROM kasir WHERE id like ?";
+            String searchSQL = "SELECT * FROM tbl_buku WHERE kode_buku like ?";
             try {
                 PreparedStatement ps = c.prepareStatement(searchSQL);
                 ps.setString(1, keyword);
@@ -71,10 +68,11 @@ public class TableBukuViewFrame extends JFrame {
                 viewTable.setModel(dtm);
                 Object[] row = new Object[4];
                 while (rs.next()) {
-                    row[0] = rs.getInt("id");
-                    row[1] = rs.getString("nama_kasir");
-                    row[2] = rs.getString("kode_merk");
-                    row[3] = rs.getString("kode_pk");
+                    row[0] = rs.getInt("kode_buku");
+                    row[1] = rs.getString("judul");
+                    row[2] = rs.getString("penulis");
+                    row[3] = rs.getString("penerbit");
+                    row[4] = rs.getString("harga");
                     dtm.addRow(row);
                 }
             } catch (SQLException ex) {
@@ -93,7 +91,7 @@ public class TableBukuViewFrame extends JFrame {
                 TableModel tm = viewTable.getModel();
                 int id = Integer.parseInt(tm.getValueAt(barisTerpilih, 0).toString());
                 Connection c = Koneksi.getConnection();
-                String deleteSQL = "DELETE FROM kasir WHERE id = ?";
+                String deleteSQL = "DELETE FROM tbl_buku WHERE kode_buku = ?";
                 try {
                     PreparedStatement ps = c.prepareStatement(deleteSQL);
                     ps.setInt( 1, id);
@@ -116,7 +114,13 @@ public class TableBukuViewFrame extends JFrame {
             inputFrame.isiKomponen();
             inputFrame.setVisible(true);
         });
-        isiTables();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                isiTable();
+            }
+        });
+        isiTable();
         init();
     }
 
@@ -129,9 +133,9 @@ public class TableBukuViewFrame extends JFrame {
     }
 
 
-        public void isiTables() {
+        public void isiTable() {
             Connection c = Koneksi.getConnection();
-            String selectSQL = "SELECT FROM * penjualan_buku";
+            String selectSQL = "SELECT * FROM tbl_buku";
             try {
                 Statement s = c.createStatement();
                 ResultSet rs = s.executeQuery(selectSQL);

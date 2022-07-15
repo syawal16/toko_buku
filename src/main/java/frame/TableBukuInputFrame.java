@@ -59,11 +59,11 @@ public class TableBukuInputFrame extends JFrame {
                         );
                         return;
                     }
-                    String insertSQL = "INSERT INTO tbl_buku (kode_buku,judul,penulis,penerbit,harga) VALUES (NULL, ?, ?, ?)";
+                    String insertSQL = "INSERT INTO tbl_buku (kode_buku,judul,penulis,penerbit,harga) VALUES (NULL, ?, ?, ?, ?, ?, ?)";
                     insertSQL = "INSERT INTO `tbl_buku` (`kode_buku`, `judul`, `penulis`, `penerbit`, `harga`) VALUES (NULL, ?)";
                     insertSQL = "INSERT INTO `tbl_buku` VALUES (NULL, ?)";
-                    insertSQL = "INSERT INTO tbl_buku (tbl_buku,tbl_penjualan) VALUES (?)";
-                    insertSQL = "INSERT INTO tbl_buku SET judul=?, penulis=?, penerbit=?, harga=?";
+                    insertSQL = "INSERT INTO tbl_buku (kode_buku,judul,penulis,penerbit,harga) VALUES (?)";
+                    insertSQL = "INSERT INTO tbl_buku SET judul=?";
                     ps = c.prepareStatement(insertSQL);
                     ps.setString(1, judul);
                     ps.setString(2, penulis);
@@ -116,7 +116,7 @@ public class TableBukuInputFrame extends JFrame {
 
     public void isiKomponen(){
         Connection c = Koneksi.getConnection();
-        String findSQL = "SELECT * FROM kasir WHERE id = ?";
+        String findSQL = "SELECT * FROM tbl_buku WHERE kode_buku = ?";
         PreparedStatement ps = null;
         try {
             ps = c.prepareStatement(findSQL);
